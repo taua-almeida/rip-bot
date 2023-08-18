@@ -8,7 +8,15 @@ packages = [{include = "rip_bot"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+discord = "^2.3.2"
+python-dotenv = "^1.0.0"
 
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+flake8 = "^6.1.0"
+isort = "^5.12.0"
+mypy = "^1.5.1"
+pytest = "^7.4.0"
 
 [build-system]
 requires = ["poetry-core"]
