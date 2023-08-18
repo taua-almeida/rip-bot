@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "rip-bot"
+version = "0.1.0"
+description = ""
+authors = ["Tauã Gomes de Almeida <tauan96@gmail.com>"]
+readme = "README.md"
+packages = [{include = "rip_bot"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
