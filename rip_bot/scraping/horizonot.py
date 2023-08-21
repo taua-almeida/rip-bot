@@ -4,9 +4,9 @@ from datetime import datetime
 from .client import HttpClient
 from .types import HorizonBoss
 
-import logging
+from rip_bot.utils import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class HorizonOtScrape:

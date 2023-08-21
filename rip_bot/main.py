@@ -16,7 +16,6 @@ async def start_bot():
 
 
 if __name__ == "__main__":
-    logger.debug(" Test")
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(start_bot())
