@@ -10,6 +10,10 @@ packages = [{include = "rip_bot"}]
 python = "^3.11"
 discord = "^2.3.2"
 python-dotenv = "^1.0.0"
+httpx = "^0.24.1"
+beautifulsoup4 = "^4.12.2"
+html5lib = "^1.1"
+rich = "^13.5.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"
