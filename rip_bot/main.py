@@ -2,12 +2,37 @@ import config
 from rip_bot.bot import DiscordBot
 import asyncio
 from rip_bot.utils import get_logger
+import libsql_client
 
 logger = get_logger(__name__)
 
 
+async def init_db():
+    async with libsql_client.create_client(
+        url="libsql://your-database.turso.io", auth_token=config.DB_AUTH_TOKEN
+    ) as client:
+        await client.batch(
+            [
+                """ 
+                CREATE TABLE IF NOT EXISTS horizonot_scheduler (
+                    id INTEGER PRIMARY KEY,
+                    author_id INTEGER NOT NULL,
+                    guild_id INTEGER,
+                    channel_id INTEGER,
+                    command TEXT NOT NULL,
+                    active BOOLEAN NOT NULL
+                )
+                """
+            ]
+        )
+        await client.close()
+
+
 async def start_bot():
     bot = DiscordBot(command_prefix="$")
+
+    # Initialize the database
+    await init_db()
 
     async with bot:
         await bot.load_extension("bot.commands.horizon_ot")

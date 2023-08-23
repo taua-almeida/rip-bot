@@ -1,9 +1,9 @@
 from discord.ext.commands import Context, Bot
 from discord import Intents
 
-import logging
+from rip_bot.utils import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class DiscordBot(Bot):

@@ -589,6 +589,21 @@ plugins = ["setuptools"]
 requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
+name = "libsql-client"
+version = "0.3.0"
+description = "Python SDK for libSQL"
+optional = false
+python-versions = ">=3.7,<4.0"
+files = [
+    {file = "libsql_client-0.3.0-py3-none-any.whl", hash = "sha256:b9edc4bc3b2c5f7e10a397e7a4e36451633a3ae4f2d7cec82c6767ccb9c34420"},
+    {file = "libsql_client-0.3.0.tar.gz", hash = "sha256:8ed74e37601fc60498dfd70c5086252e8b8abb7974f7973be93d05dbdf589d05"},
+]
+
+[package.dependencies]
+aiohttp = ">=3.0,<4.0"
+typing-extensions = ">=4.5,<5.0"
+
+[[package]]
 name = "markdown-it-py"
 version = "3.0.0"
 description = "Python port of markdown-it. Markdown parsing, done right!"
@@ -1058,4 +1073,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "ce104943b115905b33752dae220bea2086f525a13b2f68d802179fca208e271d"
+content-hash = "495d9a1f4c202a056922921f9db12b4bfbcdac469e18add16b45e9517c14fa74"

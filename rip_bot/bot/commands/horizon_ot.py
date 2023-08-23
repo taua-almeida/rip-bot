@@ -24,7 +24,7 @@ class HorizonOtCommands(Cog):
 
         embeded_msg = Embed(
             title="HorizonOT Boss Check",
-            description=f"**Today's ({weekday_name} - {current_date}) Bosses Status** {ctx.author.mention}",
+            description=f"**Here are today's ({weekday_name} - {current_date}) Bosses Status** {ctx.author.mention}",
             color=0x00FF00,
         )
         for boss in bosses:
@@ -38,6 +38,10 @@ class HorizonOtCommands(Cog):
             ).set_thumbnail(url=horizonot.thumbnail)
 
         await ctx.send(embed=embeded_msg)
+
+    @command(name="horizonotalertboss", help="Alert when a boss is born in HorizonOT")
+    async def alert_boss(self, ctx: Context[DiscordBot]) -> None:
+        await ctx.send("Comando em desenvolvimento")
 
 
 async def setup(bot: DiscordBot):
