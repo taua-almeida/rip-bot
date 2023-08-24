@@ -1,3 +1,3 @@
-from .client import db_client
+from .client import DatabaseClient
 
-__all__ = ["db_client"]
+__all__ = ["DatabaseClient"]
