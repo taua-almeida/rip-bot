@@ -2,15 +2,13 @@ import config
 from rip_bot.bot import DiscordBot
 import asyncio
 from rip_bot.utils import get_logger
-import libsql_client
+from rip_bot.database import DatabaseClient
 
 logger = get_logger(__name__)
 
 
 async def init_db():
-    async with libsql_client.create_client(
-        url=config.DB_URL, auth_token=config.DB_AUTH_TOKEN
-    ) as client:
+    async with DatabaseClient.get_client() as client:
         await client.batch(
             [
                 """ 
@@ -22,7 +20,18 @@ async def init_db():
                     command TEXT NOT NULL,
                     active BOOLEAN NOT NULL
                 )
-                """
+                """,
+                """ 
+                CREATE TABLE IF NOT EXISTS horizonot_boss_checker (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    image TEXT,
+                    is_born BOOLEAN NOT NULL,
+                    born_at DATETIME,
+                    details TEXT,
+                    meta TEXT NOT NULL
+                )
+                """,
             ]
         )
 

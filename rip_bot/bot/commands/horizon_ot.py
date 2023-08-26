@@ -83,7 +83,7 @@ class HorizonOtCommands(Cog):
                 deactivated = await self.horizonot_repository.deactivate_scheduler(
                     author_id=ctx.author.id,
                     guild_id=ctx.guild.id,
-                    channeld_id=ctx.channel.id,
+                    channel_id=ctx.channel.id,
                     command=ctx.command.name,
                 )
                 if not deactivated:
@@ -100,11 +100,12 @@ class HorizonOtCommands(Cog):
                 activated = await self.horizonot_repository.activate_scheduler(
                     author_id=ctx.author.id,
                     guild_id=ctx.guild.id,
-                    channeld_id=ctx.channel.id,
+                    channel_id=ctx.channel.id,
                     command=ctx.command.name,
                 )
                 if not activated:
                     await ctx.send("Não foi possível ativar o alerta")
+                    return
 
                 await ctx.send(
                     f"{ctx.author.mention} seu alerta foi ativado com sucesso"

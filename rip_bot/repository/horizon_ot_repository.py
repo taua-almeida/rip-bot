@@ -15,12 +15,11 @@ class HorizontOtRepository:
 
     async def get_user_alerting(
         self, discord_data: HorizonOtModel
-    ) -> tuple(int, bool) | None:
-        data_as_dict = discord_data.model_dump(exclude={"id", "channel_id", "active"})
+    ) -> tuple[int, bool] | None:
         async with DatabaseClient.get_client() as ctx:
             result = await ctx.execute(
                 "select id, active from horizonot_scheduler where author_id = ? and guild_id = ? and command = ?",
-                list(data_as_dict.values()),
+                [discord_data.author_id, discord_data.guild_id, discord_data.command],
             )
             if result and result.rows:
                 for row in result.rows:
@@ -28,24 +27,24 @@ class HorizontOtRepository:
             return None
 
     async def deactivate_scheduler(
-        self, author_id: int, guild_id: int, channeld_id: int, command: str
+        self, author_id: int, guild_id: int, channel_id: int, command: str
     ) -> int | None:
         async with DatabaseClient.get_client() as ctx:
             result = await ctx.execute(
-                "update horizonot_scheduler set active = false where author_id = ? and guild_id = ? and channeld_id = ? and command = ?",
-                [author_id, guild_id, channeld_id, command],
+                "update horizonot_scheduler set active = false where author_id = ? and guild_id = ? and channel_id = ? and command = ?",
+                [author_id, guild_id, channel_id, command],
             )
             if not result:
                 return None
             return result.last_insert_rowid
 
     async def activate_scheduler(
-        self, author_id: int, guild_id: int, channeld_id: int, command: str
+        self, author_id: int, guild_id: int, channel_id: int, command: str
     ) -> int | None:
         async with DatabaseClient.get_client() as ctx:
             result = await ctx.execute(
-                "update horizonot_scheduler set active = true where author_id = ? and guild_id = ? and channeld_id = ? and command = ?",
-                [author_id, guild_id, channeld_id, command],
+                "update horizonot_scheduler set active = true where author_id = ? and guild_id = ? and channel_id = ? and command = ?",
+                [author_id, guild_id, channel_id, command],
             )
             if not result:
                 return None

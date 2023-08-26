@@ -1,3 +1,3 @@
-from .horizon_ot_model import HorizonOtModel
+from .horizon_ot_models import HorizonOtModel, HorizonBossModel
 
-__all__ = ["HorizonOtModel"]
+__all__ = ["HorizonOtModel", "HorizonBossModel"]

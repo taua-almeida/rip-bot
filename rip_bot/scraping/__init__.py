@@ -1,4 +1,4 @@
 from .client import HttpClient
-from .horizonot import HorizonBoss, HorizonOtScrape
+from .horizonot import HorizonOtScrape
 
-__all__ = ["HttpClient", "HorizonOtScrape", "HorizonBoss"]
+__all__ = ["HttpClient", "HorizonOtScrape"]

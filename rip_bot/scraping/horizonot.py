@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
 from datetime import datetime
 
+from rip_bot.models import HorizonBossModel
 from .client import HttpClient
-from .types import HorizonBoss
 
 from rip_bot.utils import get_logger
 
@@ -34,7 +34,7 @@ class HorizonOtScrape:
             return None
         return date_time_obj
 
-    async def fetch_daily_bosses(self) -> list[HorizonBoss] | None:
+    async def fetch_daily_bosses(self) -> list[HorizonBossModel] | None:
         response = await self.client.fetch(
             endpoint="/", params={"subtopic": "checkboss"}
         )
@@ -64,7 +64,7 @@ class HorizonOtScrape:
             if monster_section
         ]
 
-        bosses: list[HorizonBoss] = []
+        bosses: list[HorizonBossModel] = []
         for boss in boss_sections:
             boss_data = boss.find_all("td")
 
@@ -92,13 +92,13 @@ class HorizonOtScrape:
 
             # Create boss object and append to bosses list
             bosses.append(
-                HorizonBoss(
+                HorizonBossModel(
                     name=boss_name,
                     image=boss_image,
                     is_born=boss_is_born,
                     born_at=born_at_time,
                     details=boss_details,
-                    meta=boss_data,
+                    meta=boss.text,
                 )
             )
 
