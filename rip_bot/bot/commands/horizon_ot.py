@@ -37,7 +37,7 @@ class HorizonOtCommands(Cog):
                 boss_status = f"🟢 **Born at {boss.born_at}**"
             embeded_msg.add_field(
                 name=f"**🌟 {boss.name}**",
-                value=f"{boss_status} \n **Wiki details: [Info]({boss.details})** \n",
+                value=f"{boss_status} \n **Wiki details: [Info]({boss.details})** \n _Check date: {boss.checked_at}_",
                 inline=False,
             ).set_thumbnail(url=horizonot.thumbnail)
 
@@ -60,7 +60,8 @@ class HorizonOtCommands(Cog):
             )
             if len(users) == 0:
                 await ctx.send("Nenhum usuário com alerta ativo")
-            await ctx.send("Usuários com alerta ativo: " + ", ".join(users))
+            mentions = " ".join([f"<@{user}>" for user in users])
+            await ctx.send(f"Usuários com alerta ativo: {mentions}")
             return
 
         data = HorizonOtModel(
@@ -95,7 +96,7 @@ class HorizonOtCommands(Cog):
                 return
             else:
                 await ctx.send(
-                    "Usuárioestá com alerta invativo... \n Ativando alerta..."
+                    "Usuário está com alerta invativo... \n Ativando alerta..."
                 )
                 activated = await self.horizonot_repository.activate_scheduler(
                     author_id=ctx.author.id,

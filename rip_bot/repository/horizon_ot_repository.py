@@ -1,13 +1,14 @@
 from rip_bot.database import DatabaseClient
-from rip_bot.models import HorizonOtModel
+from rip_bot.models import HorizonOtModel, HorizonBossModel
+from datetime import date
 
 
 class HorizontOtRepository:
     async def create_scheduler(self, data: HorizonOtModel) -> int | None:
         async with DatabaseClient.get_client() as ctx:
             result = await ctx.execute(
-                "insert into horizonot_scheduler values (:id, :author_id, :guild_id, :channel_id, :command, :active)",
-                data.model_dump(),
+                "insert into horizonot_scheduler (author_id, guild_id, channel_id, command, active) values (:author_id, :guild_id, :channel_id, :command, :active)",
+                data.model_dump(exclude={"id"}),
             )
             if not result:
                 return None
@@ -51,13 +52,52 @@ class HorizontOtRepository:
             return result.last_insert_rowid
 
     async def list_all_command_alerts_active(self, command: str) -> list[str]:
-        users_actives = []
         async with DatabaseClient.get_client() as ctx:
             result = await ctx.execute(
                 "select author_id from horizonot_scheduler where command = ? and active = ?",
                 [command, True],
             )
             if result and result.rows:
+                return [row[0] for row in result.rows]
+            return []
+
+    async def list_today_boss_check(self, today: date) -> list[HorizonBossModel] | None:
+        async with DatabaseClient.get_client() as ctx:
+            result = await ctx.execute(
+                "select * from horizonot_boss_checker where date(checked_at / 1000, 'unixepoch') = ?",
+                [today.strftime("%Y-%m-%d")],
+            )
+            if result and result.rows:
+                bosses: list[HorizonBossModel] = []
                 for row in result.rows:
-                    users_actives.append(f"<@{row[0]}>")
-            return users_actives
+                    bosses.append(HorizonBossModel(**row.asdict()))
+                return bosses
+            return None
+
+    async def create_daily_boss_check(self, data: HorizonBossModel) -> int | None:
+        async with DatabaseClient.get_client() as ctx:
+            result = await ctx.execute(
+                "insert into horizonot_boss_checker (name, image, is_born, born_at, details, meta, checked_at) values (?, ?, ?, ?, ?, ?, ?)",
+                [
+                    data.name,
+                    data.image,
+                    data.is_born,
+                    data.born_at,
+                    data.details,
+                    data.meta,
+                    data.checked_at,
+                ],
+            )
+            if not result:
+                return None
+            return result.last_insert_rowid
+
+    async def update_daily_boss_status(self, data: HorizonBossModel) -> int | None:
+        async with DatabaseClient.get_client() as ctx:
+            result = await ctx.execute(
+                "update horizonot_boss_checker set is_born = ?, checked_at = ?  where name = ?",
+                [data.is_born, data.checked_at, data.name],
+            )
+            if not result:
+                return None
+            return result.last_insert_rowid

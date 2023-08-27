@@ -29,7 +29,8 @@ async def init_db():
                     is_born BOOLEAN NOT NULL,
                     born_at DATETIME,
                     details TEXT,
-                    meta TEXT NOT NULL
+                    meta TEXT NOT NULL,
+                    checked_at DATE
                 )
                 """,
             ]

@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import date, datetime
 
 from rip_bot.models import HorizonBossModel
 from .client import HttpClient
@@ -99,6 +99,7 @@ class HorizonOtScrape:
                     born_at=born_at_time,
                     details=boss_details,
                     meta=boss.text,
+                    checked_at=datetime.now().date(),
                 )
             )
 
